@@ -10,10 +10,10 @@ var enemyAttack = 12;
 console.log(enemyNames);
 console.log(enemyNames.length);
 console.log(enemyNames[0]);
-console.log(enemyNames[3]);
+console.log(enemyNames[2]);
 
 // fight function (now with parameter for enemy's name)
-var fight = function(enemyName) {
+var fight = function (enemyName) {
   while (playerHealth > 0 && enemyHealth > 0) {
     // ask player if they'd like to fight or run
     var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
@@ -69,37 +69,104 @@ var fight = function(enemyName) {
   }
 };
 
+fight();
+
+//!! NOTICE ME I MIGHT BE A PROBELM - DOES THIS NEED TO BE SOME PLACE DIF END AT 79
 // fight each enemy-robot by looping over them and fighting them one at a time
-var startGame = function() {
-for (var i = 0; i < enemyNames.length; i++) {
-  // if player is still alive, keep fighting
+var startGame = function () {
+  //rest player status
+  playerHealth = 100;
+  playerAttack = 10;
+  playerMoney = 10;
+  for (var i = 0; i < enemyNames.length; i++) {
+    // if player is still alive, keep fighting
+    if (playerHealth > 0) {
+      // let player know what round they are in, remember that arrays start at 0 so it needs to have 1 added to it
+      window.alert('Welcome to Robot Gladiators! Round ' + (i + 1));
+
+      // pick new enemy to fight based on the index of the enemyNames array
+      var pickedEnemyName = enemyNames[i];
+
+      // reset enemyHealth before starting new fight
+      // enemyHealth = 50;
+
+      // use debugger to pause script from running and check what's going on at that moment in the code
+      debugger;
+
+      // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
+      fight(pickedEnemyName);
+      //if we're not at the last enemy in the array SHOP
+      
+      if (playerHealth > 0 && i < enemyNames.length -1) {
+        //ask if player wants to use the store before next round 
+        var storeConfirm = window.confirm ( "the fight is over, visit the store before the next round?");
+
+        //if yes, take thme  to the store() fuction
+        if (storeConfirm){ 
+        shop();
+      }
+    }
+    // if player isn't alive, stop the game
+    else {
+      window.alert('You have lost your robot in battle! Game Over!');
+      break;
+    }
+    // play again
+    startGame();
+  }
+
+  // after the loop ends, player is either out of heal
+var endGame = function () {
+  window.alert("The game has now ended. Let's see how you did!");
+  // if player is still alive, player wins
   if (playerHealth > 0) {
-    // let player know what round they are in, remember that arrays start at 0 so it needs to have 1 added to it
-    window.alert('Welcome to Robot Gladiators! Round ' + (i + 1));
-
-    // pick new enemy to fight based on the index of the enemyNames array
-    var pickedEnemyName = enemyNames[i];
-
-    // reset enemyHealth before starting new fight
-    // enemyHealth = 50;
-
-    // use debugger to pause script from running and check what's going on at that moment in the code
-    debugger;
-
-    // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
-    fight(pickedEnemyName);
+    window.alert("Great job, you've survived the game! You now have a score of " + playerMoney + ".");
   }
-  // if player isn't alive, stop the game
   else {
-    window.alert('You have lost your robot in battle! Game Over!');
-    break;
+    window.alert("You've lost your robot in attle.");
   }
-  // play again
-  startGame();
-}
+  //ask player if they'd like to play again
+  var playAgainConfirm = window.confirm(" Would you like to play again?")
+
+  if (playAgainConfirm) {
+    //restart the game
+    startGame();
+  }
+  else {
+    window.alert("Thank you for Playing Robot Gladiators! Come back soon or don't, IDK.");
+  }
 };
 
+endGame();
 
- 
-  startGame();
+var shop = function() {
+  var shopOptionPrompt = window.prompt(
+    "would you like to REFILL your health, UPGRADE your attack, or LEAVE the Store? Please enter one: 'REFILL'. 'UPGRADE', OR 'LEAVE' to make a choicie"
+  );
+  // use switch to carry out action
+  switch (shopOptionPrompt)
+  {
+    case "refill":
+      window.alert ("Refilling player's health by 20 for 7 dollars.");
+      playerHealth = playerHealth +20;
+      playerMoney = playerMoney - 7;
+      break;
+    case "upgrade":
+      window.alert ("Upgrading player's attack by 6 for 7 dollars.");
+      playerAttack = playerAttack + 6;
+      playerMoney= playerMoney - 7;
+      break;
 
+    case "leave":
+      window.alert ("Leaving the store.");
+      break;
+   default:
+     window.alert("you did not pick a valid option. Try again.");
+     
+     //call ship() again to force player to pick a valid option
+     shop();
+     break;
+  }
+};
+
+shop();
