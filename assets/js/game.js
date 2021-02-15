@@ -15,8 +15,11 @@ var startGame = function () {
       // pick new enemy to fight based on the index of the enemy.name array
       var pickedEnemyObj = enemyInfo[i];
 
-      // reset enemy.health before starting new fight
-      enemy.health = 50;
+      // set health for picked enemy
+      pickedEnemyObj.health = randomNumber(40, 60);
+
+      console.log(pickedEnemyObj);
+
 
       // pass the picked enemy.name variable's value into the fight function, where it will assume the value of the enemy.name parameter
       fight(pickedEnemyObj);
@@ -144,8 +147,6 @@ var shop = function() {
       break;
     default:
      window.alert("you did not pick a valid option. Try again.");
-     
-     //call shop() again to force player to pick a valid option
      shop();
      break;
   }
@@ -191,8 +192,6 @@ var playerInfo = {
   }
 };
 
-pickedEnemyObj.health = randomNumber (40, 60);
-
 //enemyInfo array//
 var enemyInfo = [
   {
@@ -206,8 +205,13 @@ var enemyInfo = [
   {
     name: "Odin",
     attack: randomNumber(10,14)
-  },
+  }
 ];
+
+console.log(enemyInfo);
+console.log(enemyInfo[0]);
+console.log(enemyInfo[0].name);
+console.log(enemyInfo[0]['attack']);
 
 //Call to start game 
 startGame();
